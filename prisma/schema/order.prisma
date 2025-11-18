@@ -1,0 +1,21 @@
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  vendorId    String
+  addressId   String
+  totalAmount Float
+  discount    Float      @default(0)
+  finalAmount Float      @default(0)
+  status      String      @default("pending")
+  couponId    String?
+  trackingId  String?
+  createdAt   DateTime    @default(now())
+
+  user        User        @relation(fields: [userId], references: [id])
+  vendor      Vendor      @relation(fields: [vendorId], references: [id])
+  address     Address     @relation(fields: [addressId], references: [id])
+  items       OrderItem[]
+  coupon      Coupon?     @relation(fields: [couponId], references: [id])
+
+  @@map("orders")
+}

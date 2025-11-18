@@ -1,23 +1,21 @@
-
 enum UserRole {
   CUSTOMER
   VENDOR
   ADMIN
 }
 
-enum UserStatus {
-  active
-  inactive
-  suspended
-}
-
 enum AuthProvider {
-  local
-  google
+  GOOGLE
+  LOCAL
 }
 
-enum KycStatus {
-  Pending
-  Approved
-  Rejected
+enum CouponType {
+  PERCENTAGE
+  FLAT
+}
+
+enum CouponTarget {
+  GLOBAL
+  VENDOR_ONLY
+  PRODUCT_ONLY
 }

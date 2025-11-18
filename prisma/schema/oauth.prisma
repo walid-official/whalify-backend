@@ -1,9 +1,0 @@
-model OAuthState {
-  id            String    @id @default(uuid())
-  state_token   String    @unique
-  user_id       String?
-  user          User?     @relation(fields: [user_id], references: [id])
-  redirect_uri  String?
-  expires_at    DateTime
-  created_at    DateTime  @default(now())
-}

@@ -1,22 +1,20 @@
 model User {
-  id                     String      @id @default(uuid())
-  email                  String?     @unique
-  phone                  String?     @unique
-  password          String?
-  role                   UserRole    @default(CUSTOMER)
-  status                 UserStatus  @default(active)
-  email_verified         Boolean     @default(false)
-  phone_verified         Boolean     @default(false)
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  phone         String?      @unique
+  image         String?
+  role          UserRole     @default(CUSTOMER)
+  provider      AuthProvider @default(LOCAL)
+  providerId    String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
-  google_id              String?     @unique
-  google_email           String?
-  google_profile_picture String?
-  is_google_account      Boolean     @default(false)
+  vendor        Vendor?
+  addresses     Address[]
+  orders        Order[]
+  usedCoupons   CouponUsage[]
 
-  created_at             DateTime    @default(now())
-  updated_at             DateTime    @updatedAt
-
-  sessions               Session[]
-  oauthStates            OAuthState[]
-  vendorKyc              VendorKyc?
+  @@index([providerId])
+  @@map("users")
 }
