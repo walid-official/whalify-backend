@@ -1,0 +1,19 @@
+model Coupon {
+  id            String        @id @default(cuid())
+  code          String        @unique
+  type          CouponType
+  target        CouponTarget
+  discountValue Float
+  minPurchase   Float         @default(0)
+  maxDiscount   Float?
+  isActive      Boolean       @default(true)
+  expiresAt     DateTime?
+  vendorId      String?
+
+  vendor        Vendor?       @relation(fields: [vendorId], references: [id])
+  usedBy        CouponUsage[]
+  productLinks  CouponProductLink[]
+  orders Order[]
+
+  @@map("coupons")
+}
