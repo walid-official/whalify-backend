@@ -1,0 +1,17 @@
+model VendorKyc {
+  id            String     @id @default(uuid())
+  user_id       String     @unique
+  user          User       @relation(fields: [user_id], references: [id])
+
+  nid_or_trade  String?
+  document_url  String?
+  shop_name     String?
+  shop_address  String?
+  shop_phone    String?
+
+  status        KycStatus  @default(Pending)
+  reason        String?
+
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+}

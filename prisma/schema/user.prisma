@@ -1,6 +1,22 @@
+model User {
+  id                     String      @id @default(uuid())
+  email                  String?     @unique
+  phone                  String?     @unique
+  password          String?
+  role                   UserRole    @default(CUSTOMER)
+  status                 UserStatus  @default(active)
+  email_verified         Boolean     @default(false)
+  phone_verified         Boolean     @default(false)
 
+  google_id              String?     @unique
+  google_email           String?
+  google_profile_picture String?
+  is_google_account      Boolean     @default(false)
 
-model User{
-    id Int @id @default(autoincrement())
+  created_at             DateTime    @default(now())
+  updated_at             DateTime    @updatedAt
+
+  sessions               Session[]
+  oauthStates            OAuthState[]
+  vendorKyc              VendorKyc?
 }
-

@@ -1,1 +1,23 @@
 
+enum UserRole {
+  CUSTOMER
+  VENDOR
+  ADMIN
+}
+
+enum UserStatus {
+  active
+  inactive
+  suspended
+}
+
+enum AuthProvider {
+  local
+  google
+}
+
+enum KycStatus {
+  Pending
+  Approved
+  Rejected
+}
