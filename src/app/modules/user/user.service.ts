@@ -1,5 +1,7 @@
-import { CreateUserInput } from "./user.validation";
+
+import bcrypt from "bcryptjs";
 import { prisma } from "../../shared/prisma";
+import { CreateUserInput } from "./user.validation";
 
 export const UserService = {
   async createUser(data: CreateUserInput) {
@@ -19,23 +21,23 @@ export const UserService = {
       if (existingPhone) throw new Error("Phone already exists");
     }
 
-    // Prepare data for Prisma
+    // Prepare data
     const preparedData: any = {
-      name: data.name || null,
-      email: data.email || null,
-      phone: data.phone || null,
-      image: data.image || null,
+      name: data.name,
+      email: data.email,
+      phone: data.phone ?? null,
+      image: data.image ?? null,
       role: data.role ?? "CUSTOMER",
       provider: data.provider ?? "LOCAL",
-      providerId: data.providerId || null,
+      providerId: data.providerId ?? null,
     };
 
-    // Include password only if provided and exists on data
-    if ("password" in data && (data as any).password) {
-      preparedData.password = (data as any).password;
+    // Password hash
+    if (data.password) {
+      preparedData.password = await bcrypt.hash(data.password, 10);
     }
 
-    // Create new user in DB
+    // Create new user
     const user = await prisma.user.create({
       data: preparedData,
     });
@@ -44,9 +46,7 @@ export const UserService = {
   },
 
   async getAllUsers() {
-    return prisma.user.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    return prisma.user.findMany({ orderBy: { createdAt: "desc" } });
   },
 
   async getUserById(id: string) {
